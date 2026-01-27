@@ -1,105 +1,187 @@
-# Market Research: iOS Meeting-Context Planner App
+# Market Research: iOS Daily Planner with AI Memory
 
-## 1. Competitive Landscape
-
-Your app sits at the intersection of three categories. No single competitor covers all three well:
-
-### Category A: AI Meeting Assistants (cloud-based transcription + recall)
-
-| App | Price | Key Differentiator | Gap for You |
-|---|---|---|---|
-| [Otter.ai](https://otter.ai) | Free / $17/mo Pro | Real-time transcription, live collaboration | Cloud-dependent, requires bot in calls, no planner |
-| [Fireflies.ai](https://www.outdoo.ai/blog/otter-vs-fireflies) | Free / $10-19/mo | 40+ integrations, CRM sync | Enterprise-focused, no personal context |
-| [Fathom](https://www.meetjamie.ai/blog/ai-note-taker) | Free / $19/mo | Fast highlights, zero setup | Video calls only, no calendar planner |
-| [Jamie](https://www.meetjamie.ai) | Free / ~$24/mo | No bot (device audio), cross-meeting recall | Desktop-first, no on-device AI, no planner |
-| [Granola](https://www.lindy.ai/blog/ai-note-taking-app) | Free / $14/mo | macOS/iOS native, secure | Meeting notes only, not a planner |
-| [Fellow](https://fellow.ai/blog/ai-meeting-assistants-ultimate-guide/) | $7-9/mo | Compliance, admin controls | Team-focused, not personal context recall |
-
-### Category B: AI Planners & Calendar Apps
-
-| App | Price | Key Differentiator | Gap for You |
-|---|---|---|---|
-| [Reclaim.ai](https://reclaim.ai) | Free / paid tiers | AI time-blocking, auto-scheduling | No meeting recall or notes |
-| [Motion](https://www.usemotion.com) | ~$19/mo | AI daily schedule builder | Task-focused, no meeting context |
-| [Morgen](https://www.morgen.so) | $15-30/mo | Multi-calendar consolidation | No RAG, no meeting memory |
-| [Fantastical](https://flexibits.com/pricing) | $5-7/mo | Natural language input, beautiful UI | Calendar only, no AI intelligence layer |
-| [Structured](https://structured.app) | Free / ~$1.50-30 lifetime | Visual timeline planner | No calendar sync in free tier, no AI |
-| [Calendars by Readdle](https://readdle.com/blog/calendars-lifetime-purchase-option) | $20/yr or $60 lifetime | Gesture-based, offline | No AI features |
-| [Sunsama](https://reclaim.ai/blog/best-planner-apps) | $20/mo | Calm daily planning ritual | No meeting recall |
-
-### Category C: Personal CRM / Relationship Trackers
-
-| App | Price | Key Differentiator | Gap for You |
-|---|---|---|---|
-| [Dex](https://apps.apple.com/us/app/dex-rolodex-and-personal-crm/id1472132715) | $12-20/mo | LinkedIn sync, keep-in-touch reminders | No meeting context, no planner |
-| [Clay](https://www.bigcontacts.com/blog/best-personal-crm/) | Free / $10-20/mo | AI enrichment, web data | Desktop-first, not a planner |
-| [Mem](https://get.mem.ai/blog/top-10-ai-meeting-assistants-in-2025-which-tool-is-best-for-your-meetings) | Subscription | AI-powered knowledge recall | Note-taking focused, no calendar integration |
+> **What this app is**: A daily planner where your calendar events are already there, you add tasks and rich notes around them, and an on-device AI assistant indexes everything — so months later you can ask "what did I do in August?" and get an answer from your own history.
 
 ---
 
-## 2. Pricing Tiers in This Space
+## 1. Competitive Landscape
 
-Based on the competitive landscape:
+Your app sits at the intersection of **daily planners** and **AI memory/recall**. No competitor combines both well.
 
-| Tier | Price Range | What's Included |
+### Category A: Daily Planners & Calendar Apps (Primary Competitors)
+
+These are what users compare you to first. They plan the day but have no long-term memory.
+
+| App | Price | What It Does Well | What It's Missing |
+|---|---|---|---|
+| [Motion](https://www.usemotion.com) | $19-29/mo | AI auto-schedules tasks around meetings, best-in-class automation | No memory/recall of past entries, expensive, web-first |
+| [Sunsama](https://www.sunsama.com) | $20/mo (annual) | Calm guided daily planning ritual, integrates Trello/Asana/Gmail | No AI memory, no notes editor, pricey for what it offers |
+| [Structured](https://structured.app) | Free / Pro lifetime ~$30 | Beautiful iOS-native visual timeline, 1.5M+ users | No AI at all, calendar sync requires Pro, no notes |
+| [Fantastical](https://flexibits.com/pricing) | $5-7/mo | Natural language event input, gorgeous design | Calendar only, no tasks/planner, no AI |
+| [Morgen](https://www.morgen.so) | $15-30/mo | Multi-calendar consolidation, AI daily planner | No notes, no memory, desktop-focused |
+| [Reclaim.ai](https://reclaim.ai) | Free / $8+/mo | AI time-blocking, smart habits | Google Calendar only, no notes, no recall |
+| [Sorted3](https://ss3.staysorted.com/) | $14.99 one-time | Mobile-first auto-schedule, gesture-based | No AI memory, small team, limited updates |
+| [Amie](https://www.amie.so) | Free tier / paid | Beautiful calendar + tasks + email, AI scheduling | Light AI features, no long-term memory, web-first |
+| [TickTick](https://ticktick.com) | Free / $36/yr | To-do + calendar hybrid, pomodoro timer | No AI, no rich notes, functional but not elegant |
+| [Todoist](https://todoist.com) | Free / $2-5/mo | Best value task manager, new AI assistant | Not a planner, no calendar view in free tier |
+| [Calendars by Readdle](https://readdle.com/blog/calendars-lifetime-purchase-option) | $20/yr or $60 lifetime | Gesture-based, offline, clean design | No AI, no tasks, pure calendar |
+
+### Category B: AI Memory / Knowledge Recall Apps
+
+These remember your past but aren't daily planners.
+
+| App | Price | What It Does Well | What It's Missing |
+|---|---|---|---|
+| [Notion + Notion Calendar](https://www.notion.com) | Free / $10+/mo | Calendar + notes + AI search across workspace, meeting transcription | Complex, not a focused planner, cloud-dependent, overwhelming for daily use |
+| [Mem](https://get.mem.ai) | Subscription | AI knowledge recall, auto-organizes notes | No calendar integration, no planner, cloud-based |
+| [Recallify](https://recallify.ai/) | Free / paid tiers | Voice recording + AI summaries + spaced repetition | Memory-support focused (ADHD/cognitive), not a planner |
+| [Saner.AI](https://www.saner.ai) | Unknown | AI planning hub, daily workflow optimizer | New entrant, limited reviews, web-first |
+
+### Category C: AI Meeting Assistants (Tangential — Not Direct Competitors)
+
+These record/transcribe meetings. Your app doesn't record calls — it plans days and remembers what you wrote.
+
+| App | Price | Why It's Not a Competitor |
 |---|---|---|
-| **Free** | $0 | Basic calendar view, limited notes, no AI |
-| **Personal/Pro** | $5-15/mo | Full planner + meeting recall + RAG search |
-| **Premium** | $15-25/mo | AI summarization + Siri + Spotlight + unlimited history |
-| **Lifetime** | $30-60 one-time | All features, popular with indie iOS apps |
+| [Otter.ai](https://otter.ai) | Free / $17/mo | Transcription tool, not a planner |
+| [Fireflies.ai](https://fireflies.ai) | Free / $10-19/mo | Enterprise meeting recorder, not personal planning |
+| [Jamie](https://www.meetjamie.ai) | Free / ~$24/mo | Desktop recording tool, not a planner |
+| [Granola](https://granola.so) | Free / $14/mo | Meeting notes only |
+| [Fellow](https://fellow.ai) | $7-9/mo | Team meeting governance tool |
 
-**Recommendation**: A freemium model with a **$7-10/mo** (or ~$50-70/yr) Pro tier would be competitive. The on-device/privacy angle justifies a lifetime purchase option ($50-80) since you have zero server costs.
+---
+
+## 2. Pricing Analysis
+
+### What Competitors Charge
+
+| Tier | Apps | Price Range |
+|---|---|---|
+| **Free with Pro upgrade** | Structured, TickTick, Todoist, Amie, Reclaim | $0 free / $2-36/yr Pro |
+| **Mid-range subscription** | Fantastical, Morgen, Notion | $5-15/mo |
+| **Premium subscription** | Sunsama, Motion | $19-29/mo |
+| **Lifetime purchase** | Structured, Sorted3, Calendars by Readdle | $15-60 one-time |
+
+### Recommended Pricing Strategy
+
+| Tier | Price | What's Included |
+|---|---|---|
+| **Free** | $0 | Daily planner + calendar sync + basic notes (limited history) |
+| **Pro** | $5-8/mo or $40-60/yr | Full rich notes + AI memory/recall + Siri + Spotlight |
+| **Lifetime** | $60-80 one-time | Everything, forever |
+
+**Why this works**:
+- Undercuts Motion ($29/mo) and Sunsama ($20/mo) significantly
+- Competes with Structured Pro and Fantastical on price
+- Lifetime option is viable because **on-device AI = zero server costs** (no OpenAI API bills)
+- Apple's Foundation Models framework provides [free AI inference](https://www.apple.com/newsroom/2025/09/apples-foundation-models-framework-unlocks-new-intelligent-app-experiences/)
+
+### Revenue Model (ROI Estimate)
+
+Based on [RevenueCat's State of Subscription Apps 2025](https://www.revenuecat.com/state-of-subscription-apps-2025/) and [iOS app revenue data](https://www.businessofapps.com/data/app-revenues/):
+
+| Metric | Conservative | Optimistic |
+|---|---|---|
+| Monthly downloads | 1,000 | 5,000 |
+| Free → paid conversion | 3% | 8% |
+| Paying users/month | 30 | 400 |
+| ARPU (after Apple's 15-30% cut) | $4/mo | $6/mo |
+| **Monthly revenue** | **$120** | **$2,400** |
+| **Annual revenue** | **$1,440** | **$28,800** |
+
+Scaling factors:
+- [Productivity apps on iOS earned $4.8B in 2025](https://www.apptunix.com/blog/apple-app-store-statistics/)
+- [Subscription conversion averages 12% in productivity category](https://sqmagazine.co.uk/app-store-statistics/) (highest of any category)
+- [Yearly plans retain 48-54% of subscribers](https://www.revenuecat.com/state-of-subscription-apps-2025/) vs 12-22% for monthly
+- [iOS users spend 2x more per app than Android](https://www.apptunix.com/blog/apple-app-store-statistics/)
+- Apple takes 30% commission year 1, then 15% ([Small Business Program](https://developer.apple.com/app-store/small-business-program/))
+
+**Break-even**: With zero server costs (on-device AI), your only costs are the $99/yr Apple Developer Program fee and your time. Even the conservative estimate covers that.
 
 ---
 
 ## 3. Market Size & Opportunity
 
-- The global **productivity apps market** is valued at [~$12 billion in 2025](https://www.businessresearchinsights.com/market-reports/productivity-apps-market-117791), growing at **9.2% CAGR**
-- [AI apps generated $4.5B in 2024](https://www.businessofapps.com/data/productivity-app-market/), expected to **triple in 2025**
-- [North America holds 38% market share](https://www.mordorintelligence.com/industry-reports/productivity-apps-market)
-- [AI integration influences 32% of new app functionalities](https://www.fortunebusinessinsights.com/productivity-apps-market-110254)
-- Apple's Foundation Models framework provides [free on-device AI inference](https://www.apple.com/newsroom/2025/09/apples-foundation-models-framework-unlocks-new-intelligent-app-experiences/) — meaning your AI features have **zero marginal cost**
+| Market | Size (2025) | Growth | Source |
+|---|---|---|---|
+| [Digital planner apps](https://www.datainsightsmarket.com/reports/digital-planner-app-1988836) | $1.2B | 12.5% CAGR → $3.5B by 2033 | Data Insights Market |
+| [Productivity apps](https://www.businessresearchinsights.com/market-reports/productivity-apps-market-117791) | $12.3B | 9.2% CAGR → $29.6B by 2035 | Business Research Insights |
+| [AI apps](https://www.businessofapps.com/data/productivity-app-market/) | $4.5B (2024) | Expected to 3x in 2025 | Business of Apps |
+| [iOS productivity + business](https://www.apptunix.com/blog/apple-app-store-statistics/) | $4.8B | — | Apptunix |
+| [AI app market growth](https://www.technavio.com/report/ai-app-market-industry-analysis) | — | 44.9% CAGR 2025-2029 | Technavio |
+
+Key growth drivers:
+- [AI integration influences 32% of new app features](https://www.fortunebusinessinsights.com/productivity-apps-market-110254)
+- [Remote/hybrid work: 30% of meetings now span multiple time zones](https://www.mordorintelligence.com/industry-reports/productivity-apps-market)
+- Apple Intelligence making on-device AI mainstream across 2B+ devices
+- [Structured alone has 1.5M+ active users](https://structured.app) — proving demand for iOS-native planners
 
 ---
 
 ## 4. The Gap Your App Fills
 
-The biggest opportunity is that **no app combines all three categories** — planner + meeting recall + relationship context — while being **fully on-device and privacy-first**.
+**No daily planner has long-term AI memory.** That's the gap.
 
-| Gap | Why It Matters |
+| Gap | Detail |
 |---|---|
-| **On-device AI (no cloud)** | Every competitor uses cloud transcription. Apple Intelligence + NLEmbedding = zero data exposure. This is a unique selling point, especially post-GDPR/privacy backlash. |
-| **Meeting *context*, not transcription** | Users don't need another transcript. They need "why did I meet with Sarah?" and "what did we decide last time?" — that's RAG, not recording. |
-| **Planner + recall in one app** | Currently requires 2-3 apps (calendar + meeting notes + CRM). Your app consolidates this. |
-| **No meeting bot required** | Otter/Fireflies/Fathom all join calls with a bot. Your app works from calendar data + user notes — no awkward bot in meetings. |
-| **Relationship tracking built-in** | Personal CRMs (Dex, Clay) don't connect to meeting history. Your Person model with meeting frequency fills this. |
-| **Apple-native experience** | Most competitors are cross-platform Electron/web apps. A native SwiftUI app with Siri, Spotlight, and Dynamic Type stands out on iOS. |
-| **Free AI inference** | Competitors pay for OpenAI/cloud APIs and pass costs to users. Your on-device Foundation Models cost nothing per request. |
+| **Planners don't remember** | Motion, Sunsama, Structured — they plan today. Ask "what did I do in March?" and they have nothing. Your app answers that question. |
+| **Memory apps aren't planners** | Notion AI can search your notes but it's not a focused daily planner. Recallify records audio but doesn't plan your day. Mem recalls notes but has no calendar. |
+| **Everything is cloud-first** | Motion, Sunsama, Notion, Mem — all cloud-dependent. Your app runs entirely on-device. Data never leaves the phone. |
+| **No iOS-native AI planner exists** | Structured is iOS-native but has zero AI. Motion has AI but is web-first. No one has built a native SwiftUI planner with Apple Intelligence. |
+| **Competitors are expensive** | Motion ($29/mo) and Sunsama ($20/mo) charge premium prices for AI planning. Your on-device approach has zero API costs, enabling aggressive pricing or a lifetime option. |
+| **Calendar sync is table stakes** | Every planner syncs calendars. But none indexes that calendar data + your notes + your tasks into a searchable AI memory. |
+
+### The Unique Value Proposition
+
+You open the app in the morning. Your Google/Apple/Outlook meetings are already on the timeline. You add tasks, jot notes throughout the day. Over weeks and months, the AI quietly indexes everything. Six months later, you ask "what did I work on in Q3?" or "when did I last discuss the vendor contract?" and get an instant answer — all on-device, all private, no cloud.
+
+**Nobody does this today.**
 
 ---
 
-## 5. Positioning Summary
+## 5. Positioning
 
-**One-liner**: "The meeting planner that remembers everything so you don't have to — privately, on your device."
+**One-liner**: "A daily planner with a perfect memory."
 
-**Target user**: Professionals with 5+ meetings/day who forget context between meetings and currently juggle a calendar app + notes app + maybe a CRM.
+**Target user**: Professionals and knowledge workers who plan their days around calendar meetings, take notes throughout, and wish they could search their past months of work without digging through apps.
 
-**Competitive moat**: On-device RAG + Apple Intelligence = privacy + zero API costs + offline capability. No competitor offers this combination.
+**Competitive moat**:
+- On-device RAG = privacy + zero API costs + offline
+- Apple Intelligence = free AI inference + Siri + Spotlight integration
+- iOS-native SwiftUI = best-in-class Apple experience (Structured proves this market)
+- Calendar-agnostic = Google, Apple, Outlook — wherever the user lives
+
+**Positioning against top competitors**:
+- vs **Motion**: "Same AI intelligence, fraction of the price, works offline, and actually remembers your past"
+- vs **Sunsama**: "Same calm daily planning, but with an AI that knows your last 6 months"
+- vs **Structured**: "Same beautiful iOS experience, but with AI memory and rich notes"
+- vs **Notion**: "Same AI search, but focused on your day — not a sprawling workspace"
 
 ---
 
 ## Sources
 
-- [Business of Apps - Productivity App Market](https://www.businessofapps.com/data/productivity-app-market/)
-- [Business Research Insights - Market Size](https://www.businessresearchinsights.com/market-reports/productivity-apps-market-117791)
-- [Mordor Intelligence - Market Forecast](https://www.mordorintelligence.com/industry-reports/productivity-apps-market)
-- [Fortune Business Insights - Growth Drivers](https://www.fortunebusinessinsights.com/productivity-apps-market-110254)
+- [Business of Apps - Productivity App Revenue 2024](https://www.businessofapps.com/data/productivity-app-market/)
+- [Business Research Insights - Productivity Apps Market Size 2025](https://www.businessresearchinsights.com/market-reports/productivity-apps-market-117791)
+- [Data Insights Market - Digital Planner App Market](https://www.datainsightsmarket.com/reports/digital-planner-app-1988836)
+- [Mordor Intelligence - Productivity Apps Forecast](https://www.mordorintelligence.com/industry-reports/productivity-apps-market)
+- [Fortune Business Insights - AI Growth Drivers](https://www.fortunebusinessinsights.com/productivity-apps-market-110254)
+- [Technavio - AI App Market Growth](https://www.technavio.com/report/ai-app-market-industry-analysis)
+- [RevenueCat - State of Subscription Apps 2025](https://www.revenuecat.com/state-of-subscription-apps-2025/)
+- [Apptunix - Apple App Store Statistics 2026](https://www.apptunix.com/blog/apple-app-store-statistics/)
+- [SQ Magazine - App Store Revenue Statistics](https://sqmagazine.co.uk/app-store-statistics/)
+- [Business of Apps - App Revenue Data 2026](https://www.businessofapps.com/data/app-revenues/)
 - [Apple Foundation Models Framework](https://www.apple.com/newsroom/2025/09/apples-foundation-models-framework-unlocks-new-intelligent-app-experiences/)
 - [Apple Privacy-First AI Strategy](https://apple.gadgethacks.com/news/apples-privacy-first-ai-strategy-reshapes-tech-future/)
-- [Fellow - AI Meeting Assistants Guide](https://fellow.ai/blog/ai-meeting-assistants-ultimate-guide/)
-- [Jamie - AI Notetakers](https://www.meetjamie.ai/blog/ai-notetakers-for-iphone)
-- [Morgen - Calendar Tools](https://www.morgen.so/blog-posts/best-calendar-management-tools)
-- [Reclaim - Planner Apps](https://reclaim.ai/blog/best-planner-apps)
-- [Flexibits - Fantastical Pricing](https://flexibits.com/pricing)
+- [The Business Dive - Daily Planner Apps 2026](https://thebusinessdive.com/best-daily-planner-apps)
+- [The Business Dive - Sunsama Review 2026](https://thebusinessdive.com/sunsama-review)
+- [Morgen - AI Planning Assistants](https://www.morgen.so/blog-posts/best-ai-planning-assistants)
+- [Morgen - Sunsama Alternatives](https://www.morgen.so/blog-posts/10-sunsama-alternatives-in-2025)
+- [Efficient App - Daily Planner Apps 2026](https://efficient.app/best/daily-planner)
+- [Saner.AI - Best AI Planners 2025](https://www.saner.ai/blogs/best-ai-planners)
+- [HumAI - Best AI Planners 2025](https://www.humai.blog/best-ai-planners-in-2025-i-tested-12-apps-so-you-dont-have-to/)
+- [Skywork - Amie Review 2025](https://skywork.ai/blog/amie-review-2025-calendar-tasks-ai-meeting-notes/)
 - [Structured App](https://structured.app)
-- [Readdle - Calendars Lifetime](https://readdle.com/blog/calendars-lifetime-purchase-option)
+- [Flexibits - Fantastical Pricing](https://flexibits.com/pricing)
+- [Recallify](https://recallify.ai/)
+- [Notion Releases](https://www.notion.com/releases)
