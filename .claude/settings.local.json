@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git ls-tree:*)",
+      "Bash(git rev-parse:*)",
+      "Bash(find:*)",
+      "Bash(git -C /Users/nguyen/Documents/dev/ios_app_rag_calendar log --oneline -10)",
+      "Bash(git -C /Users/nguyen/Documents/dev/ios_app_rag_calendar status)",
+      "Bash(python3:*)",
+      "Bash(for skill in swiftdata-models calendar-integration ondevice-rag-engine rich-text-notes apple-intelligence-siri apple-intelligence-summarization apple-intelligence-suggestions swiftui-views meeting-context-engine permissions-privacy testing-strategy)",
+      "Bash(do python3 skill-creator/scripts/init_skill.py \"$skill\" --path .)",
+      "Bash(done)",
+      "Bash(for skill in ios-project-scaffold swiftdata-models calendar-integration ondevice-rag-engine rich-text-notes apple-intelligence-siri apple-intelligence-summarization apple-intelligence-suggestions swiftui-views meeting-context-engine permissions-privacy testing-strategy)",
+      "Bash(do rm -f \"$skill/scripts/example.py\" \"$skill/assets/example_asset.txt\")",
+      "Bash(for skill in ios-project-scaffold calendar-integration ondevice-rag-engine rich-text-notes apple-intelligence-siri apple-intelligence-summarization apple-intelligence-suggestions swiftui-views meeting-context-engine permissions-privacy testing-strategy)",
+      "Bash(do rm -f \"/Users/nguyen/Documents/dev/ios_app_rag_calendar/.claude/skills/$skill/references/api_reference.md\")",
+      "Bash(while read f)",
+      "WebSearch"
+    ]
+  }
+}
