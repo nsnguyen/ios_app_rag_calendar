@@ -159,6 +159,62 @@ You open the app in the morning. Your Google/Apple/Outlook meetings are already 
 
 ---
 
+## 6. Feature Deep-Dive: AI-Personalized Inspiration Phrases
+
+### The Feature
+
+The app generates motivational phrases based on the user's **actual calendar, notes, and task data** — not generic quotes. The user controls:
+- **When**: Morning greeting, before meetings, end-of-day, weekly recap, or any combination
+- **Tone**: Warm & encouraging, direct & energizing, reflective & mindful — user picks in settings
+
+Examples of what the AI generates:
+- Morning: "You have 4 meetings today, including the client pitch you've been preparing for. You're ready."
+- After a busy week: "12 meetings, 23 tasks completed, and you still found time to write that project brief. Solid week."
+- Before a recurring meeting: "Last time you met with Sarah's team, you discussed the Q3 budget. Pick up where you left off."
+- Light day: "Only 2 meetings today. Use the breathing room to tackle that proposal you've been putting off."
+
+### How Competitors Handle This
+
+| App | What It Does | What's Missing |
+|---|---|---|
+| [Sunsama](https://www.sunsama.com/blog/how-to-set-daily-intentions) | Morning planning ritual with daily intention setting + end-of-day shutdown with rotating motivational quotes | Generic pre-written quotes, not personalized to your data |
+| [Inspire AI](https://apps.apple.com/us/app/inspire-ai-daily-motivation/id6450937788) | AI generates affirmations based on user-entered goals | No calendar awareness, standalone motivation app |
+| [I Am +](https://apps.apple.com/us/app/i-am-daily-ai-affirmations/id1666552894) | AI generates 50 affirmations from user's goals/desires | No schedule context, wellness-only focus |
+| [Stoic](https://www.apple.com/newsroom/2025/09/apples-foundation-models-framework-unlocks-new-intelligent-app-experiences/) | Uses Apple Foundation Models for journal prompts based on mood/sleep | Journaling app, not a planner |
+| [Gratitude](https://www.apple.com/newsroom/2025/09/apples-foundation-models-framework-unlocks-new-intelligent-app-experiences/) | Weekly summaries of challenges, wins, intentions using Foundation Models | Gratitude journaling only |
+| [ThinkUp](https://www.mindfulsuite.com/reviews/best-motivational-quotes-apps) | Record affirmations in your own voice for deeper impact | No AI, no calendar, manual input only |
+| [Motivation Daily](https://blog.motivation.app/blogs/the-best-motivational-quotes-apps) | Sends quotes based on pre-selected categories | Generic quotes library, no personalization |
+
+**The gap**: No app generates motivational phrases from your actual calendar and planning data. Sunsama comes closest with its daily ritual, but its quotes are generic. Affirmation apps are personalized to goals but have zero calendar/schedule awareness. [Research shows](https://lifetips.alibaba.com/tech-efficiency/personalized-affirmations-from-your-calendar-habits) affirmations rooted in verified behavioral evidence (your actual calendar data) activate the brain's reward circuitry more effectively than generic aspirational statements.
+
+### Market Context
+
+This feature taps into the **spiritual wellness / affirmation apps market**:
+
+| Metric | Value | Source |
+|---|---|---|
+| Spiritual wellness apps market (2025) | [$2.2-2.5B](https://www.grandviewresearch.com/industry-analysis/spiritual-wellness-apps-market-report) | Grand View Research |
+| Projected by 2033 | [$7.3B at 14.6% CAGR](https://www.towardshealthcare.com/insights/spiritual-wellness-apps-market-sizing) | Towards Healthcare |
+| Broader wellness apps market (2025) | [$11-13B](https://www.businessofapps.com/data/wellness-app-market/) | Business of Apps |
+| Projected by 2030 | [$26B at 14.9% CAGR](https://www.grandviewresearch.com/industry-analysis/wellness-apps-market-report) | Grand View Research |
+| iOS platform share | [44.8%](https://www.grandviewresearch.com/industry-analysis/spiritual-wellness-apps-market-report) | Grand View Research |
+| Paid/in-app purchase revenue share | [62.9%](https://www.towardshealthcare.com/insights/spiritual-wellness-apps-market-sizing) | Towards Healthcare |
+
+Key trends:
+- [AI-powered affirmation trackers are an emerging trend](https://www.towardshealthcare.com/insights/spiritual-wellness-apps-market-sizing) in the wellness space
+- [Apple's Foundation Models framework](https://www.apple.com/newsroom/2025/09/apples-foundation-models-framework-unlocks-new-intelligent-app-experiences/) is already powering personalized journaling prompts in apps like Stoic and Gratitude
+- Sunsama users are [actively requesting deeper intention-setting customization](https://roadmap.sunsama.com/improvements/p/customize-plan-your-day-steps-daily-planning-share-your-plan-prompts-template) — proving demand
+
+### Why This Feature Matters for Your App
+
+1. **Differentiator within planners**: No planner (Motion, Structured, Sunsama) generates personalized motivational content from your data. This makes your planner feel alive.
+2. **Retention driver**: Daily personalized messages create a habit loop — users open the app to see "what it says today." [Affirmation apps see strong daily engagement](https://www.mindfulsuite.com/reviews/best-motivational-quotes-apps).
+3. **Emotional connection**: Productivity apps feel cold. A planner that says "You've been crushing it this week" based on real data creates an emotional bond generic planners can't match.
+4. **Free to implement**: Apple Foundation Models = on-device, no API cost. The AI reads your local calendar + notes and generates the phrase. Zero marginal cost per user.
+5. **Cross-market appeal**: Pulls in wellness/self-improvement users who wouldn't normally download a "planner" — expands your addressable market into the [$2.5B affirmation space](https://www.grandviewresearch.com/industry-analysis/spiritual-wellness-apps-market-report).
+
+---
+
 ## Sources
 
 - [Business of Apps - Productivity App Revenue 2024](https://www.businessofapps.com/data/productivity-app-market/)
@@ -185,3 +241,12 @@ You open the app in the morning. Your Google/Apple/Outlook meetings are already 
 - [Flexibits - Fantastical Pricing](https://flexibits.com/pricing)
 - [Recallify](https://recallify.ai/)
 - [Notion Releases](https://www.notion.com/releases)
+- [Sunsama - Daily Intentions](https://www.sunsama.com/blog/how-to-set-daily-intentions)
+- [Sunsama - Daily Planning Ritual](https://www.sunsama.com/features/daily-planning-and-shutdown)
+- [Sunsama Roadmap - Customization Requests](https://roadmap.sunsama.com/improvements/p/customize-plan-your-day-steps-daily-planning-share-your-plan-prompts-template)
+- [Grand View Research - Spiritual Wellness Apps](https://www.grandviewresearch.com/industry-analysis/spiritual-wellness-apps-market-report)
+- [Grand View Research - Wellness Apps Market](https://www.grandviewresearch.com/industry-analysis/wellness-apps-market-report)
+- [Towards Healthcare - Spiritual Wellness Apps Market](https://www.towardshealthcare.com/insights/spiritual-wellness-apps-market-sizing)
+- [Business of Apps - Wellness App Market](https://www.businessofapps.com/data/wellness-app-market/)
+- [LifeTips - Personalized Affirmations from Calendar](https://lifetips.alibaba.com/tech-efficiency/personalized-affirmations-from-your-calendar-habits)
+- [Mindful Suite - Best Motivational Apps](https://www.mindfulsuite.com/reviews/best-motivational-quotes-apps)
