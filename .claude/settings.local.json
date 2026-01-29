@@ -15,7 +15,17 @@
       "Bash(for skill in ios-project-scaffold calendar-integration ondevice-rag-engine rich-text-notes apple-intelligence-siri apple-intelligence-summarization apple-intelligence-suggestions swiftui-views meeting-context-engine permissions-privacy testing-strategy)",
       "Bash(do rm -f \"/Users/nguyen/Documents/dev/ios_app_rag_calendar/.claude/skills/$skill/references/api_reference.md\")",
       "Bash(while read f)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(tree:*)",
+      "Bash(wc:*)",
+      "Bash(git -C /Users/nguyen/Documents/dev/ios_app_rag_calendar log --oneline --all -20)",
+      "Bash(git -C /Users/nguyen/Documents/dev/ios_app_rag_calendar diff HEAD)",
+      "Bash(git -C /Users/nguyen/Documents/dev/ios_app_rag_calendar status --short)",
+      "Bash(gem list:*)",
+      "Bash(ruby -e:*)",
+      "Bash(ls:*)",
+      "Bash(open:*)",
+      "Bash(xcodebuild:*)"
     ]
   }
 }
