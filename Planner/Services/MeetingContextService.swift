@@ -16,6 +16,7 @@ final class MeetingContextService: MeetingContextServiceProtocol {
     private let ragService: RAGServiceProtocol
     private let embeddingService: EmbeddingServiceProtocol
     private let summarizationService: SummarizationServiceProtocol
+    private let spotlightService: SpotlightServiceProtocol?
 
     private(set) var isSyncing = false
     private var syncTask: Task<Void, Never>?
@@ -24,12 +25,14 @@ final class MeetingContextService: MeetingContextServiceProtocol {
         calendarService: CalendarServiceProtocol,
         ragService: RAGServiceProtocol,
         embeddingService: EmbeddingServiceProtocol,
-        summarizationService: SummarizationServiceProtocol
+        summarizationService: SummarizationServiceProtocol,
+        spotlightService: SpotlightServiceProtocol? = nil
     ) {
         self.calendarService = calendarService
         self.ragService = ragService
         self.embeddingService = embeddingService
         self.summarizationService = summarizationService
+        self.spotlightService = spotlightService
     }
 
     // MARK: - Calendar Sync
@@ -102,14 +105,23 @@ final class MeetingContextService: MeetingContextServiceProtocol {
                 )
                 context.insert(person)
             }
-            if !meeting.attendees.contains(where: { $0.email == person.email }) {
+
+            // FIX C3: Check both sides of relationship to prevent meetingCount inflation
+            // SwiftData relationships may not be fully loaded, so check inverse too
+            let alreadyInMeetingAttendees = meeting.attendees.contains(where: { $0.email == person.email })
+            let meetingAlreadyInPersonMeetings = person.meetings.contains(where: { $0.eventIdentifier == meeting.eventIdentifier })
+
+            if !alreadyInMeetingAttendees && !meetingAlreadyInPersonMeetings {
                 meeting.attendees.append(person)
                 person.meetingCount += 1
             }
         }
 
-        // Index for RAG (background)
+        // Index for RAG
         ragService.indexMeetingRecord(meeting, context: context)
+
+        // Index for Spotlight search
+        spotlightService?.indexMeeting(meeting)
     }
 
     // MARK: - Query
