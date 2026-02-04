@@ -110,7 +110,7 @@ The RAG index becomes more valuable over time. A user's first week has a few mee
 ## Directory Structure
 
 ```
-Sources/
+Planner/
 ├── App/                    # Entry point, container, config files
 │   ├── PlannerApp.swift
 │   ├── ContentView.swift
@@ -132,6 +132,7 @@ Sources/
 │   ├── ThemeEnvironment.swift
 │   └── ThemeModifiers.swift
 ├── Services/               # Business logic (protocol-based)
+│   ├── AppServices.swift   # DI container for all services
 │   ├── CalendarServiceProtocol.swift
 │   ├── CalendarService.swift
 │   ├── EmbeddingService.swift

@@ -12,6 +12,7 @@ struct InspirationPhrase: Identifiable, Codable {
         case reflective
     }
 
+    /// When to show inspiration phrases. Reserved for future use.
     enum Timing: String, Codable, CaseIterable {
         case morning
         case preMeeting

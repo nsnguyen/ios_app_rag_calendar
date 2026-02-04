@@ -1,5 +1,6 @@
 import Testing
 import Foundation
+import SwiftUI
 @testable import Planner
 
 @Suite("Extension Tests")
@@ -106,5 +107,3 @@ struct ExtensionTests {
         #expect(plain == "Hello world foo bar")
     }
 }
-
-import SwiftUI
