@@ -8,6 +8,8 @@ protocol MeetingContextServiceProtocol {
     func generateBrief(for meeting: MeetingRecord, context: ModelContext) async -> MeetingBrief?
     func startBackgroundSync(context: ModelContext)
     func generateTimeline(for date: Date, context: ModelContext) -> [TimelineEntry]
+    func generateWeekTimeline(from startDate: Date, context: ModelContext) -> [Date: [TimelineEntry]]
+    func fetchNotesForDate(_ date: Date, context: ModelContext) -> [Note]
 }
 
 @Observable
@@ -178,5 +180,34 @@ final class MeetingContextService: MeetingContextServiceProtocol {
 
         guard let meetings = try? context.fetch(descriptor) else { return [] }
         return meetings.map { TimelineEntry(from: $0) }
+    }
+
+    func generateWeekTimeline(from startDate: Date, context: ModelContext) -> [Date: [TimelineEntry]] {
+        var result: [Date: [TimelineEntry]] = [:]
+
+        for dayOffset in 0..<7 {
+            guard let dayDate = Calendar.current.date(byAdding: .day, value: dayOffset, to: startDate) else {
+                continue
+            }
+            let entries = generateTimeline(for: dayDate, context: context)
+            result[dayDate.startOfDay] = entries
+        }
+
+        return result
+    }
+
+    // MARK: - Notes
+
+    func fetchNotesForDate(_ date: Date, context: ModelContext) -> [Note] {
+        let startOfDay = date.startOfDay
+        let endOfDay = date.endOfDay
+        let descriptor = FetchDescriptor<Note>(
+            predicate: #Predicate { note in
+                note.createdAt >= startOfDay && note.createdAt <= endOfDay
+            },
+            sortBy: [SortDescriptor(\.createdAt, order: .reverse)]
+        )
+
+        return (try? context.fetch(descriptor)) ?? []
     }
 }

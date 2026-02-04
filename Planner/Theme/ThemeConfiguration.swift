@@ -10,6 +10,7 @@ struct ThemeConfiguration: Sendable {
     let shadows: ThemeShadows
     let motion: ThemeMotion
     let iconRenderingMode: SymbolRenderingMode
+    let textures: ThemeTextures
 }
 
 // MARK: - Theme Colors
@@ -186,7 +187,8 @@ extension ThemeConfiguration {
             subtleRadius: 6, subtleX: 0, subtleY: 2
         ),
         motion: .easeInOut,
-        iconRenderingMode: .hierarchical
+        iconRenderingMode: .hierarchical,
+        textures: .calm
     )
 
     static let bold = ThemeConfiguration(
@@ -226,7 +228,8 @@ extension ThemeConfiguration {
             subtleRadius: 8, subtleX: 0, subtleY: 2
         ),
         motion: .bouncy,
-        iconRenderingMode: .palette
+        iconRenderingMode: .palette,
+        textures: .bold
     )
 
     static let warm = ThemeConfiguration(
@@ -266,7 +269,8 @@ extension ThemeConfiguration {
             subtleRadius: 6, subtleX: 0, subtleY: 2
         ),
         motion: .gentle,
-        iconRenderingMode: .multicolor
+        iconRenderingMode: .multicolor,
+        textures: .warm
     )
 
     static let minimal = ThemeConfiguration(
@@ -306,6 +310,7 @@ extension ThemeConfiguration {
             subtleRadius: 4, subtleX: 0, subtleY: 1
         ),
         motion: .crisp,
-        iconRenderingMode: .monochrome
+        iconRenderingMode: .monochrome,
+        textures: .minimal
     )
 }
