@@ -5,6 +5,14 @@ struct ContentView: View {
     @State private var selectedTab = 0
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
 
+    init() {
+        // Handle test launch arguments
+        let args = ProcessInfo.processInfo.arguments
+        if args.contains("--reset-onboarding") {
+            UserDefaults.standard.set(false, forKey: "hasCompletedOnboarding")
+        }
+    }
+
     var body: some View {
         if shouldShowOnboarding {
             OnboardingView(hasCompletedOnboarding: $hasCompletedOnboarding)
@@ -16,7 +24,6 @@ struct ContentView: View {
     private var shouldShowOnboarding: Bool {
         let args = ProcessInfo.processInfo.arguments
         if args.contains("--skip-onboarding") { return false }
-        if args.contains("--reset-onboarding") { return true }
         return !hasCompletedOnboarding
     }
 

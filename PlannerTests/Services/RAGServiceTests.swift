@@ -774,9 +774,9 @@ struct RAGServiceTests {
             vector: VectorTestHelpers.vectorWithSimilarity(0.5),
             sourceType: "meeting"
         )
-        // Keyword later in text
+        // Keyword later in text (after 100 chars, so no title boost)
         let bodyMatch = EmbeddingRecord(
-            chunkText: "General meeting notes that eventually discuss the project details",
+            chunkText: "Meeting notes from our weekly team sync where we discussed various topics, reviewed ongoing work, and also briefly mentioned the project",
             vector: VectorTestHelpers.vectorWithSimilarity(0.5),
             sourceType: "meeting"
         )
