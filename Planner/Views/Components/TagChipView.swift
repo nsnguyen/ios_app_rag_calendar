@@ -13,5 +13,6 @@ struct TagChipView: View {
             .padding(.vertical, theme.spacing.xxs)
             .background(Color(hex: tag.color).opacity(0.15))
             .clipShape(Capsule())
+            .accessibilityLabel("Tag: \(tag.name)")
     }
 }

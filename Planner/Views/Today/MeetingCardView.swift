@@ -83,11 +83,35 @@ struct MeetingCardView: View {
             x: theme.shadows.cardX,
             y: theme.shadows.cardY
         )
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(accessibilityDescription)
     }
 
-    private var timeRange: String {
+    // MARK: - Static DateFormatter (cached)
+
+    private static let timeFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.timeStyle = .short
-        return "\(formatter.string(from: entry.startDate)) - \(formatter.string(from: entry.endDate))"
+        return formatter
+    }()
+
+    private var timeRange: String {
+        "\(Self.timeFormatter.string(from: entry.startDate)) - \(Self.timeFormatter.string(from: entry.endDate))"
+    }
+
+    private var accessibilityDescription: String {
+        var description = "Meeting: \(entry.title)"
+        if entry.isAllDay {
+            description += ", all day"
+        } else {
+            description += ", \(timeRange)"
+        }
+        if let location = entry.location, !location.isEmpty {
+            description += ", at \(location)"
+        }
+        if !entry.attendeeNames.isEmpty {
+            description += ", with \(entry.attendeeNames.joined(separator: ", "))"
+        }
+        return description
     }
 }

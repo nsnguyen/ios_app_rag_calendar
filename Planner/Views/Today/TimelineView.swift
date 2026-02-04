@@ -312,6 +312,26 @@ private struct DateChipView: View {
     var hasMeetings: Bool = false
     let action: () -> Void
 
+    // MARK: - Static DateFormatters (cached)
+
+    private static let weekdayFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEE"
+        return formatter
+    }()
+
+    private static let dayFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "d"
+        return formatter
+    }()
+
+    private static let accessibilityFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .full
+        return formatter
+    }()
+
     var body: some View {
         Button(action: action) {
             VStack(spacing: theme.spacing.xxs) {
@@ -336,18 +356,26 @@ private struct DateChipView: View {
             .background(isSelected ? theme.colors.accent : theme.colors.surface)
             .clipShape(RoundedRectangle(cornerRadius: theme.shapes.chipRadius, style: .continuous))
         }
+        .accessibilityLabel(accessibilityDescription)
     }
 
     private var dayOfWeek: String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "EEE"
-        return formatter.string(from: date)
+        Self.weekdayFormatter.string(from: date)
     }
 
     private var dayNumber: String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "d"
-        return formatter.string(from: date)
+        Self.dayFormatter.string(from: date)
+    }
+
+    private var accessibilityDescription: String {
+        var description = Self.accessibilityFormatter.string(from: date)
+        if isSelected {
+            description += ", selected"
+        }
+        if hasMeetings {
+            description += ", has meetings"
+        }
+        return description
     }
 }
 
@@ -360,6 +388,20 @@ private struct MonthDayView: View {
     let isToday: Bool
     var hasMeetings: Bool = false
     let action: () -> Void
+
+    // MARK: - Static DateFormatters (cached)
+
+    private static let dayFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "d"
+        return formatter
+    }()
+
+    private static let accessibilityFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .full
+        return formatter
+    }()
 
     var body: some View {
         Button(action: action) {
@@ -381,12 +423,11 @@ private struct MonthDayView: View {
                 }
             }
         }
+        .accessibilityLabel(accessibilityDescription)
     }
 
     private var dayNumber: String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "d"
-        return formatter.string(from: date)
+        Self.dayFormatter.string(from: date)
     }
 
     private var foregroundColor: Color {
@@ -407,5 +448,19 @@ private struct MonthDayView: View {
         } else {
             return .clear
         }
+    }
+
+    private var accessibilityDescription: String {
+        var description = Self.accessibilityFormatter.string(from: date)
+        if isSelected {
+            description += ", selected"
+        }
+        if isToday {
+            description += ", today"
+        }
+        if hasMeetings {
+            description += ", has meetings"
+        }
+        return description
     }
 }
