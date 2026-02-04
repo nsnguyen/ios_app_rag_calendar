@@ -39,4 +39,12 @@ final class MockSummarizationService: SummarizationServiceProtocol, @unchecked S
     func generateInspirationPhrase(meetingCount: Int, noteCount: Int, tone: InspirationPhrase.Tone) async -> String? {
         return mockInspirationPhrase
     }
+
+    var mockAnswer: String? = "Mock answer"
+    var answerQuestionCallCount = 0
+
+    func answerQuestion(_ question: String, fromContext: [SearchResult]) async -> String? {
+        answerQuestionCallCount += 1
+        return mockAnswer
+    }
 }
