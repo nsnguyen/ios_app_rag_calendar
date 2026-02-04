@@ -12,6 +12,7 @@ struct DataSettingsView: View {
     @State private var meetingEmbeddingCount = 0
     @State private var noteEmbeddingCount = 0
     @State private var personCount = 0
+    @State private var taskCount = 0
     @State private var showDeleteConfirmation = false
     @State private var isRebuilding = false
     @State private var isLoadingSampleData = false
@@ -22,6 +23,7 @@ struct DataSettingsView: View {
             Section("Storage") {
                 dataRow("Meetings", count: meetingCount, icon: "calendar")
                 dataRow("Notes", count: noteCount, icon: "note.text")
+                dataRow("Tasks", count: taskCount, icon: "checkmark.circle")
                 dataRow("People", count: personCount, icon: "person.2")
                 dataRow("Embeddings (Total)", count: embeddingCount, icon: "brain")
                 dataRow("  - Meeting chunks", count: meetingEmbeddingCount, icon: "calendar.badge.clock")
@@ -103,6 +105,7 @@ struct DataSettingsView: View {
         noteCount = (try? modelContext.fetchCount(FetchDescriptor<Note>())) ?? 0
         embeddingCount = (try? modelContext.fetchCount(FetchDescriptor<EmbeddingRecord>())) ?? 0
         personCount = (try? modelContext.fetchCount(FetchDescriptor<Person>())) ?? 0
+        taskCount = (try? modelContext.fetchCount(FetchDescriptor<DayTask>())) ?? 0
 
         // Count embeddings by type
         let allEmbeddings = (try? modelContext.fetch(FetchDescriptor<EmbeddingRecord>())) ?? []
@@ -186,6 +189,14 @@ struct DataSettingsView: View {
             }
         }
 
+        // 6. Delete all tasks
+        let taskDescriptor = FetchDescriptor<DayTask>()
+        if let tasks = try? modelContext.fetch(taskDescriptor) {
+            for task in tasks {
+                modelContext.delete(task)
+            }
+        }
+
         // Save changes
         try? modelContext.save()
 
@@ -223,9 +234,14 @@ struct DataSettingsView: View {
                 spotlightService.indexMeeting(meeting)
             }
 
-            // Insert notes first
+            // Insert notes
             for note in sampleData.notes {
                 context.insert(note)
+            }
+
+            // Insert tasks
+            for task in sampleData.tasks {
+                context.insert(task)
             }
 
             // Save all data before indexing
@@ -254,6 +270,7 @@ private enum SampleDataGenerator {
         let people: [Person]
         let meetings: [(MeetingRecord, [String])] // meeting + attendee emails
         let notes: [Note]
+        let tasks: [DayTask]
     }
 
     static func generate() -> SampleData {
@@ -704,7 +721,49 @@ private enum SampleDataGenerator {
 
         let notes = [note1, note2, note3, note4, note5, note6]
 
-        return SampleData(people: people, meetings: meetings, notes: notes)
+        // Create sample tasks for various days
+        var tasks: [DayTask] = []
+
+        // Today's tasks
+        let todayTask1 = DayTask(title: "Review Q1 roadmap document", date: today, sortOrder: 0)
+        let todayTask2 = DayTask(title: "Send follow-up email to Lisa", date: today, sortOrder: 1)
+        let todayTask3 = DayTask(title: "Prepare demo for enterprise client", date: today, sortOrder: 2)
+        todayTask3.isCompleted = true
+        tasks.append(contentsOf: [todayTask1, todayTask2, todayTask3])
+
+        // Tomorrow's tasks
+        let tomorrow = calendar.date(byAdding: .day, value: 1, to: today)!
+        let tomorrowTask1 = DayTask(title: "Sprint planning prep", date: tomorrow, sortOrder: 0)
+        let tomorrowTask2 = DayTask(title: "Review contractor proposals", date: tomorrow, sortOrder: 1)
+        let tomorrowTask3 = DayTask(title: "Call recruiter about VP Eng role", date: tomorrow, sortOrder: 2)
+        tasks.append(contentsOf: [tomorrowTask1, tomorrowTask2, tomorrowTask3])
+
+        // Day after tomorrow
+        let dayAfter = calendar.date(byAdding: .day, value: 2, to: today)!
+        let dayAfterTask1 = DayTask(title: "Finalize color palette with Emma", date: dayAfter, sortOrder: 0)
+        let dayAfterTask2 = DayTask(title: "Update financial projections", date: dayAfter, sortOrder: 1)
+        tasks.append(contentsOf: [dayAfterTask1, dayAfterTask2])
+
+        // 3 days out
+        let day3 = calendar.date(byAdding: .day, value: 3, to: today)!
+        let day3Task1 = DayTask(title: "Draft board meeting slides", date: day3, sortOrder: 0)
+        let day3Task2 = DayTask(title: "Review Sarah's timeline docs", date: day3, sortOrder: 1)
+        tasks.append(contentsOf: [day3Task1, day3Task2])
+
+        // 5 days out
+        let day5 = calendar.date(byAdding: .day, value: 5, to: today)!
+        let day5Task1 = DayTask(title: "Print materials for Lisa meeting", date: day5, sortOrder: 0)
+        let day5Task2 = DayTask(title: "Rehearse investor pitch", date: day5, sortOrder: 1)
+        tasks.append(contentsOf: [day5Task1, day5Task2])
+
+        // Yesterday (some completed)
+        let yesterday = calendar.date(byAdding: .day, value: -1, to: today)!
+        let yesterdayTask1 = DayTask(title: "Send pricing proposal", date: yesterday, sortOrder: 0)
+        yesterdayTask1.isCompleted = true
+        let yesterdayTask2 = DayTask(title: "Book flight for March trip", date: yesterday, sortOrder: 1)
+        tasks.append(contentsOf: [yesterdayTask1, yesterdayTask2])
+
+        return SampleData(people: people, meetings: meetings, notes: notes, tasks: tasks)
     }
 }
 

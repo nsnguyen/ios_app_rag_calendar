@@ -12,6 +12,7 @@ enum SharedModelContainer {
             Person.self,
             EmbeddingRecord.self,
             Tag.self,
+            DayTask.self,
         ])
         let configuration = ModelConfiguration(
             schema: schema,

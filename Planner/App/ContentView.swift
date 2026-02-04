@@ -24,7 +24,7 @@ struct ContentView: View {
         TabView(selection: $selectedTab) {
             Tab("Today", systemImage: "calendar", value: 0) {
                 NavigationStack {
-                    TimelineView()
+                    PhysicalPlannerView()
                 }
             }
 
