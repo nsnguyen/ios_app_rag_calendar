@@ -272,8 +272,8 @@ struct PhysicalPlannerView: View {
 
         if let targetDate = Calendar.current.date(from: components) {
             let todayStart = weekStartDate(for: 0)
-            let weeks = Calendar.current.dateComponents([.weekOfYear], from: todayStart, to: targetDate).weekOfYear ?? 0
-            currentWeekIndex = weeks
+            let days = Calendar.current.dateComponents([.day], from: todayStart, to: targetDate).day ?? 0
+            currentWeekIndex = days / 7
         }
     }
 
