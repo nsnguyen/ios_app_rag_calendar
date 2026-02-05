@@ -185,7 +185,7 @@ extension ThemeConfiguration {
             // Calm: elegant serif day numbers, refined labels
             calendarDayNumber: ThemeTypography.charterFont(size: 20, weight: .bold),
             calendarWeekday: ThemeTypography.seravekFont(size: 12, weight: .medium),
-            calendarEventTitle: ThemeTypography.charterFont(size: 14, weight: .medium),
+            calendarEventTitle: ThemeTypography.charterFont(size: 12, weight: .medium),
             calendarTaskTitle: ThemeTypography.seravekFont(size: 14, weight: .medium),
             calendarTaskCheckbox: 16
         ),
@@ -232,7 +232,7 @@ extension ThemeConfiguration {
             // Bold: punchy rounded numbers, tight labels
             calendarDayNumber: ThemeTypography.roundedSystemFont(size: 22, weight: .heavy),
             calendarWeekday: ThemeTypography.roundedSystemFont(size: 12, weight: .semibold),
-            calendarEventTitle: ThemeTypography.roundedSystemFont(size: 14, weight: .semibold),
+            calendarEventTitle: ThemeTypography.roundedSystemFont(size: 12, weight: .semibold),
             calendarTaskTitle: ThemeTypography.roundedSystemFont(size: 14, weight: .medium),
             calendarTaskCheckbox: 17
         ),
@@ -279,7 +279,7 @@ extension ThemeConfiguration {
             // Warm: handwritten-feel Georgia numbers, cozy Seravek labels
             calendarDayNumber: ThemeTypography.georgiaFont(size: 21, weight: .bold),
             calendarWeekday: ThemeTypography.seravekFont(size: 12, weight: .medium),
-            calendarEventTitle: ThemeTypography.georgiaFont(size: 14, weight: .medium),
+            calendarEventTitle: ThemeTypography.georgiaFont(size: 12, weight: .medium),
             calendarTaskTitle: ThemeTypography.seravekFont(size: 14, weight: .regular),
             calendarTaskCheckbox: 16
         ),
@@ -326,7 +326,7 @@ extension ThemeConfiguration {
             // Minimal: clean system fonts, precise weights
             calendarDayNumber: .system(size: 19, weight: .semibold),
             calendarWeekday: .system(size: 12, weight: .medium),
-            calendarEventTitle: .system(size: 14, weight: .medium),
+            calendarEventTitle: .system(size: 12, weight: .medium),
             calendarTaskTitle: .system(size: 14, weight: .regular),
             calendarTaskCheckbox: 16
         ),

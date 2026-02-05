@@ -317,7 +317,7 @@ private struct DaySectionView: View {
                                 Text(meeting.title)
                                     .font(theme.typography.calendarEventTitle)
                                     .foregroundStyle(theme.colors.textPrimary)
-                                    .lineLimit(1)
+                                    .lineLimit(2)
                             }
                         }
                         .buttonStyle(.plain)
