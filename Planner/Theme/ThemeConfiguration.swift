@@ -186,7 +186,7 @@ extension ThemeConfiguration {
             calendarDayNumber: ThemeTypography.charterFont(size: 20, weight: .bold),
             calendarWeekday: ThemeTypography.seravekFont(size: 12, weight: .medium),
             calendarEventTitle: ThemeTypography.charterFont(size: 12, weight: .medium),
-            calendarTaskTitle: ThemeTypography.seravekFont(size: 14, weight: .medium),
+            calendarTaskTitle: ThemeTypography.seravekFont(size: 12, weight: .medium),
             calendarTaskCheckbox: 16
         ),
         spacing: ThemeSpacing(xxs: 2, xs: 6, sm: 10, md: 16, lg: 22, xl: 30, xxl: 40, xxxl: 56),
@@ -233,7 +233,7 @@ extension ThemeConfiguration {
             calendarDayNumber: ThemeTypography.roundedSystemFont(size: 22, weight: .heavy),
             calendarWeekday: ThemeTypography.roundedSystemFont(size: 12, weight: .semibold),
             calendarEventTitle: ThemeTypography.roundedSystemFont(size: 12, weight: .semibold),
-            calendarTaskTitle: ThemeTypography.roundedSystemFont(size: 14, weight: .medium),
+            calendarTaskTitle: ThemeTypography.roundedSystemFont(size: 12, weight: .medium),
             calendarTaskCheckbox: 17
         ),
         spacing: ThemeSpacing(xxs: 2, xs: 4, sm: 8, md: 12, lg: 16, xl: 24, xxl: 32, xxxl: 48),
@@ -280,7 +280,7 @@ extension ThemeConfiguration {
             calendarDayNumber: ThemeTypography.georgiaFont(size: 21, weight: .bold),
             calendarWeekday: ThemeTypography.seravekFont(size: 12, weight: .medium),
             calendarEventTitle: ThemeTypography.georgiaFont(size: 12, weight: .medium),
-            calendarTaskTitle: ThemeTypography.seravekFont(size: 14, weight: .regular),
+            calendarTaskTitle: ThemeTypography.seravekFont(size: 12, weight: .regular),
             calendarTaskCheckbox: 16
         ),
         spacing: ThemeSpacing(xxs: 3, xs: 6, sm: 10, md: 14, lg: 20, xl: 28, xxl: 38, xxxl: 52),
@@ -327,7 +327,7 @@ extension ThemeConfiguration {
             calendarDayNumber: .system(size: 19, weight: .semibold),
             calendarWeekday: .system(size: 12, weight: .medium),
             calendarEventTitle: .system(size: 12, weight: .medium),
-            calendarTaskTitle: .system(size: 14, weight: .regular),
+            calendarTaskTitle: .system(size: 12, weight: .regular),
             calendarTaskCheckbox: 16
         ),
         spacing: ThemeSpacing(xxs: 2, xs: 4, sm: 8, md: 12, lg: 16, xl: 24, xxl: 32, xxxl: 48),

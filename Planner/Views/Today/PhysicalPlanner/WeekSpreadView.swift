@@ -293,7 +293,7 @@ private struct DaySectionView: View {
     // MARK: - Content Overlay (Tasks + Meetings)
 
     private var contentOverlay: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading, spacing: 6) {
             // Tasks first (with checkboxes)
             if let tasks = data?.tasks, !tasks.isEmpty {
                 ForEach(tasks.prefix(2)) { task in
@@ -360,7 +360,7 @@ private struct TaskRowView: View {
                     .font(theme.typography.calendarTaskTitle)
                     .foregroundStyle(task.isCompleted ? theme.colors.textTertiary : theme.colors.textPrimary)
                     .strikethrough(task.isCompleted, color: theme.colors.textTertiary)
-                    .lineLimit(1)
+                    .lineLimit(2)
             }
         }
         .buttonStyle(.plain)
