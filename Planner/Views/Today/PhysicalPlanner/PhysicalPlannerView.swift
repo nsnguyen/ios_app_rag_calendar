@@ -260,19 +260,25 @@ struct PhysicalPlannerView: View {
     }
 
     private func jumpToMonth(_ month: Int) {
+        let calendar = Calendar.current
         let today = Date()
-        var components = Calendar.current.dateComponents([.year], from: today)
+        var components = calendar.dateComponents([.year], from: today)
         components.month = month
         components.day = 1
 
-        let currentMonth = Calendar.current.component(.month, from: today)
-        if month < currentMonth {
-            components.year! += 1
-        }
+        if let firstOfMonth = calendar.date(from: components) {
+            // Find the Monday of the week containing the 1st
+            let weekday = calendar.component(.weekday, from: firstOfMonth)
+            let daysToMonday = (weekday == 1) ? -6 : (2 - weekday)
+            var targetMonday = calendar.date(byAdding: .day, value: daysToMonday, to: firstOfMonth)!
 
-        if let targetDate = Calendar.current.date(from: components) {
+            // If that Monday is in the previous month, use the next Monday
+            if calendar.component(.month, from: targetMonday) != month {
+                targetMonday = calendar.date(byAdding: .day, value: 7, to: targetMonday)!
+            }
+
             let todayStart = weekStartDate(for: 0)
-            let days = Calendar.current.dateComponents([.day], from: todayStart, to: targetDate).day ?? 0
+            let days = calendar.dateComponents([.day], from: todayStart, to: targetMonday).day ?? 0
             currentWeekIndex = days / 7
         }
     }
