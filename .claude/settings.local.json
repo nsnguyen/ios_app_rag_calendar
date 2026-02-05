@@ -25,7 +25,11 @@
       "Bash(ruby -e:*)",
       "Bash(ls:*)",
       "Bash(open:*)",
-      "Bash(xcodebuild:*)"
+      "Bash(xcodebuild:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(openclaw gateway wake:*)",
+      "Bash(openclaw --help:*)"
     ]
   }
 }
