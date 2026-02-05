@@ -109,12 +109,6 @@ struct PhysicalPlannerView: View {
 
             // Toolbar icons
             HStack(spacing: theme.spacing.md) {
-                Button {
-                    showNoteEditor = true
-                } label: {
-                    toolbarIcon("note.text")
-                }
-
                 NavigationLink {
                     SearchView()
                 } label: {
@@ -122,9 +116,9 @@ struct PhysicalPlannerView: View {
                 }
 
                 Button {
-                    // Save/bookmark action
+                    showNoteEditor = true
                 } label: {
-                    toolbarIcon("square.and.arrow.down")
+                    toolbarIcon("note.text")
                 }
 
                 Button {
@@ -190,22 +184,45 @@ struct PhysicalPlannerView: View {
 
             Divider()
 
-            // Month grid
+            // Month grid with event count badges
             LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4), spacing: theme.spacing.sm) {
                 ForEach(1...12, id: \.self) { month in
+                    let count = eventCountForMonth(month)
                     Button {
                         jumpToMonth(month)
                         showMonthPicker = false
                     } label: {
-                        Text(monthAbbreviation(month))
-                            .font(.system(size: 14, weight: .medium))
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, theme.spacing.sm)
-                            .background(
-                                RoundedRectangle(cornerRadius: 6)
-                                    .fill(isCurrentMonth(month) ? theme.colors.accent : theme.colors.surface)
-                            )
-                            .foregroundStyle(isCurrentMonth(month) ? .white : theme.colors.textPrimary)
+                        VStack(spacing: 2) {
+                            Text(monthAbbreviation(month))
+                                .font(.system(size: 14, weight: .medium))
+
+                            // Event density indicator
+                            if count > 0 {
+                                HStack(spacing: 2) {
+                                    ForEach(0..<min(count, 4), id: \.self) { _ in
+                                        Circle()
+                                            .fill(isCurrentMonth(month) ? .white.opacity(0.7) : theme.colors.accent.opacity(0.6))
+                                            .frame(width: 4, height: 4)
+                                    }
+                                    if count > 4 {
+                                        Text("+")
+                                            .font(.system(size: 8, weight: .bold))
+                                            .foregroundStyle(isCurrentMonth(month) ? .white.opacity(0.7) : theme.colors.accent.opacity(0.6))
+                                    }
+                                }
+                                .frame(height: 6)
+                            } else {
+                                Spacer()
+                                    .frame(height: 6)
+                            }
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, theme.spacing.sm)
+                        .background(
+                            RoundedRectangle(cornerRadius: 6)
+                                .fill(isCurrentMonth(month) ? theme.colors.accent : theme.colors.surface)
+                        )
+                        .foregroundStyle(isCurrentMonth(month) ? .white : theme.colors.textPrimary)
                     }
                 }
             }
@@ -272,6 +289,21 @@ struct PhysicalPlannerView: View {
     private func isCurrentMonth(_ month: Int) -> Bool {
         let weekStart = weekStartDate(for: currentWeekIndex)
         return Calendar.current.component(.month, from: weekStart) == month
+    }
+
+    private func eventCountForMonth(_ month: Int) -> Int {
+        let calendar = Calendar.current
+        let year = calendar.component(.year, from: Date())
+        let startComponents = DateComponents(year: year, month: month, day: 1)
+        guard let startDate = calendar.date(from: startComponents) else { return 0 }
+        guard let endDate = calendar.date(byAdding: .month, value: 1, to: startDate) else { return 0 }
+
+        let descriptor = FetchDescriptor<MeetingRecord>(
+            predicate: #Predicate { meeting in
+                meeting.startDate >= startDate && meeting.startDate < endDate
+            }
+        )
+        return (try? modelContext.fetchCount(descriptor)) ?? 0
     }
 }
 

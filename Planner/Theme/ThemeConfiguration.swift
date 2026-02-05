@@ -43,6 +43,13 @@ struct ThemeTypography: Sendable {
     let bodyWeight: Font.Weight
     let letterSpacing: CGFloat
 
+    // Calendar-specific typography for the week grid
+    let calendarDayNumber: Font
+    let calendarWeekday: Font
+    let calendarEventTitle: Font
+    let calendarTaskTitle: Font
+    let calendarTaskCheckbox: CGFloat // size for SF Symbol
+
     static func charterFont(size: CGFloat, weight: Font.Weight = .regular) -> Font {
         .custom("Charter", size: size).weight(weight)
     }
@@ -174,7 +181,13 @@ extension ThemeConfiguration {
             monoFont: .system(size: 14, design: .monospaced),
             headingWeight: .semibold,
             bodyWeight: .regular,
-            letterSpacing: 0.3
+            letterSpacing: 0.3,
+            // Calm: elegant serif day numbers, refined labels
+            calendarDayNumber: ThemeTypography.charterFont(size: 20, weight: .bold),
+            calendarWeekday: ThemeTypography.seravekFont(size: 12, weight: .medium),
+            calendarEventTitle: ThemeTypography.charterFont(size: 14, weight: .medium),
+            calendarTaskTitle: ThemeTypography.seravekFont(size: 14, weight: .medium),
+            calendarTaskCheckbox: 16
         ),
         spacing: ThemeSpacing(xxs: 2, xs: 6, sm: 10, md: 16, lg: 22, xl: 30, xxl: 40, xxxl: 56),
         shapes: ThemeShapes(cardRadius: 16, buttonRadius: 12, chipRadius: 20, sheetRadius: 24, inputRadius: 12),
@@ -215,7 +228,13 @@ extension ThemeConfiguration {
             monoFont: .system(size: 14, design: .monospaced),
             headingWeight: .bold,
             bodyWeight: .regular,
-            letterSpacing: -0.2
+            letterSpacing: -0.2,
+            // Bold: punchy rounded numbers, tight labels
+            calendarDayNumber: ThemeTypography.roundedSystemFont(size: 22, weight: .heavy),
+            calendarWeekday: ThemeTypography.roundedSystemFont(size: 12, weight: .semibold),
+            calendarEventTitle: ThemeTypography.roundedSystemFont(size: 14, weight: .semibold),
+            calendarTaskTitle: ThemeTypography.roundedSystemFont(size: 14, weight: .medium),
+            calendarTaskCheckbox: 17
         ),
         spacing: ThemeSpacing(xxs: 2, xs: 4, sm: 8, md: 12, lg: 16, xl: 24, xxl: 32, xxxl: 48),
         shapes: ThemeShapes(cardRadius: 12, buttonRadius: 10, chipRadius: 16, sheetRadius: 20, inputRadius: 10),
@@ -256,7 +275,13 @@ extension ThemeConfiguration {
             monoFont: .system(size: 14, design: .monospaced),
             headingWeight: .semibold,
             bodyWeight: .regular,
-            letterSpacing: 0.2
+            letterSpacing: 0.2,
+            // Warm: handwritten-feel Georgia numbers, cozy Seravek labels
+            calendarDayNumber: ThemeTypography.georgiaFont(size: 21, weight: .bold),
+            calendarWeekday: ThemeTypography.seravekFont(size: 12, weight: .medium),
+            calendarEventTitle: ThemeTypography.georgiaFont(size: 14, weight: .medium),
+            calendarTaskTitle: ThemeTypography.seravekFont(size: 14, weight: .regular),
+            calendarTaskCheckbox: 16
         ),
         spacing: ThemeSpacing(xxs: 3, xs: 6, sm: 10, md: 14, lg: 20, xl: 28, xxl: 38, xxxl: 52),
         shapes: ThemeShapes(cardRadius: 20, buttonRadius: 16, chipRadius: 24, sheetRadius: 28, inputRadius: 14),
@@ -297,7 +322,13 @@ extension ThemeConfiguration {
             monoFont: .system(size: 14, design: .monospaced),
             headingWeight: .semibold,
             bodyWeight: .regular,
-            letterSpacing: 0
+            letterSpacing: 0,
+            // Minimal: clean system fonts, precise weights
+            calendarDayNumber: .system(size: 19, weight: .semibold),
+            calendarWeekday: .system(size: 12, weight: .medium),
+            calendarEventTitle: .system(size: 14, weight: .medium),
+            calendarTaskTitle: .system(size: 14, weight: .regular),
+            calendarTaskCheckbox: 16
         ),
         spacing: ThemeSpacing(xxs: 2, xs: 4, sm: 8, md: 12, lg: 16, xl: 24, xxl: 32, xxxl: 48),
         shapes: ThemeShapes(cardRadius: 10, buttonRadius: 8, chipRadius: 14, sheetRadius: 16, inputRadius: 8),

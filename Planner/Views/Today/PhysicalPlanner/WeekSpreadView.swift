@@ -251,21 +251,21 @@ private struct DaySectionView: View {
 
     private var dayBadge: some View {
         Button(action: onExpand) {
-            HStack(spacing: 3) {
+            HStack(spacing: 4) {
                 Text(dayNumber)
-                    .font(.system(size: 14, weight: .bold, design: .rounded))
+                    .font(theme.typography.calendarDayNumber)
 
                 Text(weekdayShort)
-                    .font(.system(size: 10, weight: .medium))
+                    .font(theme.typography.calendarWeekday)
 
                 Image(systemName: "arrow.up.right")
-                    .font(.system(size: 7, weight: .bold))
+                    .font(.system(size: 8, weight: .bold))
             }
             .foregroundStyle(isToday ? .white : theme.colors.textPrimary)
-            .padding(.horizontal, 6)
-            .padding(.vertical, 3)
+            .padding(.horizontal, 7)
+            .padding(.vertical, 4)
             .background(
-                RoundedRectangle(cornerRadius: 4, style: .continuous)
+                RoundedRectangle(cornerRadius: 5, style: .continuous)
                     .fill(isToday ? Color.red : theme.colors.surface.opacity(0.8))
             )
         }
@@ -275,8 +275,8 @@ private struct DaySectionView: View {
     // MARK: - Lined Paper
 
     private var linedPaper: some View {
-        let lineSpacing: CGFloat = 18
-        let numberOfLines = max(0, Int((height - 28) / lineSpacing))
+        let lineSpacing: CGFloat = 22
+        let numberOfLines = max(0, Int((height - 34) / lineSpacing))
 
         return VStack(spacing: 0) {
             ForEach(0..<numberOfLines, id: \.self) { _ in
@@ -293,7 +293,7 @@ private struct DaySectionView: View {
     // MARK: - Content Overlay (Tasks + Meetings)
 
     private var contentOverlay: some View {
-        VStack(alignment: .leading, spacing: 14) {
+        VStack(alignment: .leading, spacing: 16) {
             // Tasks first (with checkboxes)
             if let tasks = data?.tasks, !tasks.isEmpty {
                 ForEach(tasks.prefix(2)) { task in
@@ -310,12 +310,12 @@ private struct DaySectionView: View {
                         Button {
                             onMeetingTap(meeting)
                         } label: {
-                            HStack(spacing: 4) {
+                            HStack(spacing: 5) {
                                 Circle()
                                     .fill(theme.colors.accent)
-                                    .frame(width: 4, height: 4)
+                                    .frame(width: 5, height: 5)
                                 Text(meeting.title)
-                                    .font(.system(size: 12, weight: .medium))
+                                    .font(theme.typography.calendarEventTitle)
                                     .foregroundStyle(theme.colors.textPrimary)
                                     .lineLimit(1)
                             }
@@ -352,12 +352,12 @@ private struct TaskRowView: View {
             HStack(spacing: 6) {
                 // Checkbox
                 Image(systemName: task.isCompleted ? "checkmark.square.fill" : "square")
-                    .font(.system(size: 14))
+                    .font(.system(size: theme.typography.calendarTaskCheckbox))
                     .foregroundStyle(task.isCompleted ? theme.colors.accent : theme.colors.textTertiary)
 
                 // Title
                 Text(task.title.isEmpty ? "New task" : task.title)
-                    .font(.system(size: 12, weight: task.isCompleted ? .regular : .medium))
+                    .font(theme.typography.calendarTaskTitle)
                     .foregroundStyle(task.isCompleted ? theme.colors.textTertiary : theme.colors.textPrimary)
                     .strikethrough(task.isCompleted, color: theme.colors.textTertiary)
                     .lineLimit(1)
