@@ -45,15 +45,12 @@ struct DayPageView: View {
                         .padding(.top, theme.spacing.md)
                 }
 
-                // Time slot grid
-                TimeSlotGridView(
-                    meetings: timedMeetings,
-                    date: date,
-                    onMeetingTap: onMeetingTap
-                )
-                .frame(height: 400)
-                .padding(.leading, theme.spacing.sm)
-                .padding(.top, theme.spacing.md)
+                // Timed meetings list
+                if !timedMeetings.isEmpty {
+                    timedMeetingsSection
+                        .padding(.horizontal, theme.spacing.lg)
+                        .padding(.top, theme.spacing.md)
+                }
 
                 // Notes section
                 LinkedNotesSection(
@@ -210,6 +207,56 @@ struct DayPageView: View {
         .padding(theme.spacing.sm)
         .background(theme.colors.surface.opacity(0.5))
         .clipShape(RoundedRectangle(cornerRadius: theme.shapes.cardRadius / 2, style: .continuous))
+    }
+
+    // MARK: - Timed Meetings Section
+
+    private var timedMeetingsSection: some View {
+        VStack(alignment: .leading, spacing: theme.spacing.xs) {
+            Text("Scheduled")
+                .font(.caption2)
+                .fontWeight(.medium)
+                .foregroundStyle(theme.colors.textTertiary)
+                .textCase(.uppercase)
+
+            ForEach(timedMeetings) { meeting in
+                Button {
+                    onMeetingTap(meeting)
+                } label: {
+                    HStack(spacing: theme.spacing.sm) {
+                        RoundedRectangle(cornerRadius: 2)
+                            .fill(theme.colors.accent)
+                            .frame(width: 3, height: 16)
+
+                        VStack(alignment: .leading, spacing: 1) {
+                            Text(meeting.title)
+                                .font(theme.typography.captionFont)
+                                .foregroundStyle(theme.colors.textPrimary)
+                                .lineLimit(1)
+
+                            Text(meetingTimeString(meeting))
+                                .font(.caption2)
+                                .foregroundStyle(theme.colors.textSecondary)
+                        }
+
+                        Spacer()
+                    }
+                    .padding(.vertical, theme.spacing.xxs)
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .padding(theme.spacing.sm)
+        .background(theme.colors.surface.opacity(0.5))
+        .clipShape(RoundedRectangle(cornerRadius: theme.shapes.cardRadius / 2, style: .continuous))
+    }
+
+    private func meetingTimeString(_ meeting: MeetingRecord) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "h:mm a"
+        let start = formatter.string(from: meeting.startDate).lowercased()
+        let end = formatter.string(from: meeting.endDate).lowercased()
+        return "\(start) – \(end)"
     }
 
     // MARK: - Computed Properties

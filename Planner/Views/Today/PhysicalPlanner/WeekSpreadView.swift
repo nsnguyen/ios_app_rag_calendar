@@ -239,6 +239,10 @@ private struct DaySectionView: View {
             Spacer(minLength: 0)
         }
         .frame(height: height)
+        .contentShape(Rectangle())
+        .onTapGesture {
+            onExpand()
+        }
         .overlay(alignment: .bottom) {
             Rectangle()
                 .fill(theme.textures.paperLine.opacity(0.25))

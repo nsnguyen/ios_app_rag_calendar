@@ -442,8 +442,10 @@ struct PhysicalPlannerView: View {
     }
 
     private func jumpToWeek(startingOn monday: Date) {
-        let todayMonday = weekStartDate(for: 0)
-        let days = Calendar.current.dateComponents([.day], from: todayMonday, to: monday).day ?? 0
+        let calendar = Calendar.current
+        let todayMonday = calendar.startOfDay(for: weekStartDate(for: 0))
+        let targetMonday = calendar.startOfDay(for: monday)
+        let days = calendar.dateComponents([.day], from: todayMonday, to: targetMonday).day ?? 0
         currentWeekIndex = days / 7
     }
 
