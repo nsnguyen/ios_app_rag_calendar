@@ -11,8 +11,7 @@ struct PhysicalPlannerView: View {
     @State private var showMonthPicker = false
     @State private var showNoteEditor = false
     @State private var selectedDayForExpand: Date?
-    @State private var selectedNote: Note?
-    @State private var showNoteEditorFromDay = false
+    @State private var dayNoteSheet: DayNoteSheet?
     @State private var selectedPickerMonth: Int?
     @State private var selectedPickerYear: Int = Calendar.current.component(.year, from: Date())
 
@@ -48,10 +47,10 @@ struct PhysicalPlannerView: View {
                     date: date,
                     onMeetingTap: { _ in },
                     onNoteTap: { note in
-                        selectedNote = note
+                        dayNoteSheet = .edit(note)
                     },
                     onAddNote: {
-                        showNoteEditorFromDay = true
+                        dayNoteSheet = .add
                     }
                 )
                 .toolbar {
@@ -61,14 +60,14 @@ struct PhysicalPlannerView: View {
                         }
                     }
                 }
-                .sheet(item: $selectedNote) { note in
+                .sheet(item: $dayNoteSheet) { sheet in
                     NavigationStack {
-                        NoteEditorView(note: note)
-                    }
-                }
-                .sheet(isPresented: $showNoteEditorFromDay) {
-                    NavigationStack {
-                        NoteEditorView()
+                        switch sheet {
+                        case .edit(let note):
+                            NoteEditorView(note: note)
+                        case .add:
+                            NoteEditorView(forDate: date)
+                        }
                     }
                 }
             }
@@ -492,6 +491,20 @@ struct PhysicalPlannerView: View {
             }
         )
         return (try? modelContext.fetchCount(descriptor)) ?? 0
+    }
+}
+
+// MARK: - Day Note Sheet
+
+enum DayNoteSheet: Identifiable {
+    case edit(Note)
+    case add
+
+    var id: String {
+        switch self {
+        case .edit(let note): return "edit-\(note.persistentModelID)"
+        case .add: return "add"
+        }
     }
 }
 

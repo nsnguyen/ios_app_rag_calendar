@@ -209,40 +209,40 @@ final class RAGService: RAGServiceProtocol, @unchecked Sendable {
 
     private func chunkNote(_ note: Note) -> [String] {
         let text = note.plainText
-        guard !text.isEmpty else { return [] }
-
         let title = note.title.isEmpty ? "Untitled Note" : note.title
 
-        // For notes, create simpler chunks - one with full content (truncated if too long)
-        // and include title for better searchability
+        // Index even if plainText is empty — the title alone is searchable
+        guard !title.isEmpty || !text.isEmpty else { return [] }
+
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .none
+        let dateStr = dateFormatter.string(from: note.createdAt)
+
         var chunks: [String] = []
 
-        // Main chunk: Title + beginning of content
         let maxChunkLength = 500
-        let fullText = "Note '\(title)': \(text)"
+        let prefix = "Note '\(title)' on \(dateStr)"
+        let fullText = text.isEmpty ? prefix : "\(prefix): \(text)"
 
         if fullText.count <= maxChunkLength {
-            // Short note - just one chunk
             chunks.append(fullText)
         } else {
-            // Split into multiple chunks by paragraphs
             let paragraphs = text.components(separatedBy: "\n").filter { !$0.trimmingCharacters(in: .whitespaces).isEmpty }
 
-            var currentChunk = "Note '\(title)': "
+            var currentChunk = "\(prefix): "
 
             for paragraph in paragraphs {
                 let potentialChunk = currentChunk + paragraph + " "
 
                 if potentialChunk.count > maxChunkLength && currentChunk.count > 30 {
-                    // Save current chunk and start new one
                     chunks.append(currentChunk.trimmingCharacters(in: .whitespaces))
-                    currentChunk = "Note '\(title)' (continued): \(paragraph) "
+                    currentChunk = "\(prefix) (continued): \(paragraph) "
                 } else {
                     currentChunk = potentialChunk
                 }
             }
 
-            // Add final chunk if it has content
             let trimmed = currentChunk.trimmingCharacters(in: .whitespaces)
             if trimmed.count > 30 {
                 chunks.append(trimmed)

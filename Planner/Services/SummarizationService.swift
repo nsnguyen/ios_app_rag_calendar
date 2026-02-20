@@ -113,14 +113,14 @@ final class SummarizationService: SummarizationServiceProtocol, @unchecked Senda
         }.joined(separator: "\n\n")
 
         let prompt = """
-        Based on the following information from my personal notes and meetings, answer this question naturally and concisely.
+        You are a personal assistant answering questions using the user's own notes and meetings. The information below was retrieved from their data and IS the answer — treat it as fact.
 
         Question: \(question)
 
-        Relevant information:
+        Retrieved from user's data:
         \(context)
 
-        Provide a helpful, conversational answer in 2-3 sentences. If the information doesn't fully answer the question, say what you found.
+        Answer in 1-2 sentences. Be direct and confident. A note titled "X" on a date means X happened on that date. Do not say the information is missing if it appears above.
         """
 
         do {
@@ -165,35 +165,28 @@ final class SummarizationService: SummarizationServiceProtocol, @unchecked Senda
     }
 
     private func fallbackAnswerQuestion(_ question: String, fromContext results: [SearchResult]) -> String {
-        let topResults = Array(results.prefix(3))
+        let topResults = Array(results.prefix(5))
         guard !topResults.isEmpty else {
             return "I couldn't find relevant information to answer your question."
         }
 
-        // Find the best result with actual content (not just short metadata)
-        let contentResults = topResults.filter { $0.chunkText.count > 50 }
-
-        if contentResults.isEmpty {
-            // Fall back to combining the short results
-            let combined = topResults.map { $0.chunkText }.joined(separator: " ")
-            return truncateToSentences(combined, maxLength: 400)
-        }
-
-        // Build answer from the richest content
         var answerParts: [String] = []
 
-        // Get the primary answer from the best match
-        if let primary = contentResults.first {
-            let cleaned = cleanChunkText(primary.chunkText)
-            answerParts.append(truncateToSentences(cleaned, maxLength: 350))
-        }
+        // Always include the top result — it's the highest relevance match
+        let primary = topResults[0]
+        let primaryCleaned = cleanChunkText(primary.chunkText)
+        let sourceLabel = primary.sourceType == "meeting" ? "meeting" : "note"
 
-        // Add supplementary info from other good matches
-        for result in contentResults.dropFirst().prefix(1) {
+        answerParts.append(primaryCleaned)
+
+        // Add supplementary info from other strong matches (score >= 0.6)
+        for result in topResults.dropFirst().prefix(2) {
+            guard result.score >= 0.6 else { break }
             let cleaned = cleanChunkText(result.chunkText)
             let supplement = truncateToSentences(cleaned, maxLength: 200)
-            if !supplement.isEmpty && !answerParts.contains(where: { $0.contains(supplement.prefix(50)) }) {
-                answerParts.append(supplement)
+            if !supplement.isEmpty && !answerParts.contains(where: { $0.contains(String(supplement.prefix(40))) }) {
+                let label = result.sourceType == "meeting" ? "meeting" : "note"
+                answerParts.append("Also found a related \(label): \(supplement)")
             }
         }
 

@@ -10,6 +10,19 @@ struct SearchView: View {
     @State private var aiAnswer: String?
     @State private var isSearching = false
     @State private var hasSearched = false
+    @State private var showMoreResults = false
+    @State private var selectedDay: Date?
+    @State private var navigationPath = NavigationPath()
+
+    private let relevanceThreshold: Double = 0.55
+
+    private var topResults: [SearchResult] {
+        results.filter { $0.score >= relevanceThreshold }
+    }
+
+    private var moreResults: [SearchResult] {
+        results.filter { $0.score < relevanceThreshold }
+    }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -61,20 +74,57 @@ struct SearchView: View {
                                 .padding(.horizontal, theme.spacing.lg)
                         }
 
-                        // Source Results
-                        VStack(alignment: .leading, spacing: theme.spacing.sm) {
-                            Text("Sources")
-                                .font(theme.typography.captionFont)
-                                .foregroundStyle(theme.colors.textSecondary)
-                                .padding(.horizontal, theme.spacing.lg)
+                        // Top Results
+                        if !topResults.isEmpty {
+                            VStack(alignment: .leading, spacing: theme.spacing.sm) {
+                                Text("Top Results")
+                                    .font(theme.typography.captionFont)
+                                    .foregroundStyle(theme.colors.textSecondary)
+                                    .padding(.horizontal, theme.spacing.lg)
 
-                            LazyVStack(spacing: 0) {
-                                ForEach(results) { result in
-                                    SearchResultRow(result: result)
-                                        .padding(.horizontal, theme.spacing.lg)
-                                    if result.id != results.last?.id {
-                                        Divider()
-                                            .padding(.leading, theme.spacing.lg)
+                                LazyVStack(spacing: 0) {
+                                    ForEach(topResults) { result in
+                                        resultLink(result: result)
+                                            .padding(.horizontal, theme.spacing.lg)
+                                        if result.id != topResults.last?.id {
+                                            Divider()
+                                                .padding(.leading, theme.spacing.lg)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        // More Results (collapsed)
+                        if !moreResults.isEmpty {
+                            VStack(alignment: .leading, spacing: theme.spacing.sm) {
+                                Button {
+                                    withAnimation(.easeInOut(duration: 0.2)) {
+                                        showMoreResults.toggle()
+                                    }
+                                } label: {
+                                    HStack(spacing: theme.spacing.xs) {
+                                        Text("Show \(moreResults.count) more result\(moreResults.count == 1 ? "" : "s")")
+                                            .font(theme.typography.captionFont)
+                                            .foregroundStyle(theme.colors.textSecondary)
+                                        Image(systemName: showMoreResults ? "chevron.up" : "chevron.down")
+                                            .font(.caption2)
+                                            .foregroundStyle(theme.colors.textTertiary)
+                                    }
+                                    .padding(.horizontal, theme.spacing.lg)
+                                }
+
+                                if showMoreResults {
+                                    LazyVStack(spacing: 0) {
+                                        ForEach(moreResults) { result in
+                                            resultLink(result: result)
+                                                .padding(.horizontal, theme.spacing.lg)
+                                                .opacity(0.6)
+                                            if result.id != moreResults.last?.id {
+                                                Divider()
+                                                    .padding(.leading, theme.spacing.lg)
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -92,12 +142,31 @@ struct SearchView: View {
         }
         .background(theme.colors.background)
         .navigationTitle("Search")
+        .navigationDestination(for: Note.self) { note in
+            NoteEditorView(note: note)
+        }
+        .fullScreenCover(item: $selectedDay) { date in
+            NavigationStack {
+                DayPageView(
+                    date: date,
+                    onMeetingTap: { _ in },
+                    onNoteTap: { _ in },
+                    onAddNote: {}
+                )
+                .toolbar {
+                    ToolbarItem(placement: .topBarLeading) {
+                        Button("Done") { selectedDay = nil }
+                    }
+                }
+            }
+        }
     }
 
     private func performSearch() {
         guard !query.trimmingCharacters(in: .whitespaces).isEmpty else { return }
         isSearching = true
         aiAnswer = nil
+        showMoreResults = false
 
         Task {
             results = appServices.ragService.search(query: query, topK: 10, context: modelContext)
@@ -109,6 +178,25 @@ struct SearchView: View {
 
             hasSearched = true
             isSearching = false
+        }
+    }
+
+    @ViewBuilder
+    private func resultLink(result: SearchResult) -> some View {
+        if let note = result.embeddingRecord.note {
+            NavigationLink(value: note) {
+                SearchResultRow(result: result)
+            }
+            .buttonStyle(.plain)
+        } else if let meeting = result.embeddingRecord.meetingRecord {
+            Button {
+                selectedDay = meeting.startDate
+            } label: {
+                SearchResultRow(result: result)
+            }
+            .buttonStyle(.plain)
+        } else {
+            SearchResultRow(result: result)
         }
     }
 }
@@ -173,3 +261,4 @@ private struct AIAnswerCard: View {
         )
     }
 }
+

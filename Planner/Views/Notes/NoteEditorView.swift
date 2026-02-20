@@ -14,11 +14,23 @@ struct NoteEditorView: View {
     @State private var existingNote: Note?
 
     private let meetingRecord: MeetingRecord?
+    private let dateOverride: Date?
 
     /// Create a new standalone note.
     init() {
         self._existingNote = State(initialValue: nil)
         self.meetingRecord = nil
+        self.dateOverride = nil
+        self._title = State(initialValue: "")
+        self._attributedText = State(initialValue: NSAttributedString(string: ""))
+        self._plainText = State(initialValue: "")
+    }
+
+    /// Create a new note for a specific date.
+    init(forDate date: Date) {
+        self._existingNote = State(initialValue: nil)
+        self.meetingRecord = nil
+        self.dateOverride = date
         self._title = State(initialValue: "")
         self._attributedText = State(initialValue: NSAttributedString(string: ""))
         self._plainText = State(initialValue: "")
@@ -28,6 +40,7 @@ struct NoteEditorView: View {
     init(note: Note) {
         self._existingNote = State(initialValue: note)
         self.meetingRecord = note.meetingRecord
+        self.dateOverride = nil
         self._title = State(initialValue: note.title)
         self._plainText = State(initialValue: note.plainText)
 
@@ -44,6 +57,7 @@ struct NoteEditorView: View {
     init(meetingRecord: MeetingRecord) {
         self._existingNote = State(initialValue: nil)
         self.meetingRecord = meetingRecord
+        self.dateOverride = nil
         self._title = State(initialValue: "")
         self._attributedText = State(initialValue: NSAttributedString(string: ""))
         self._plainText = State(initialValue: "")
@@ -112,6 +126,9 @@ struct NoteEditorView: View {
                 richTextData: richTextData,
                 meetingRecord: meetingRecord
             )
+            if let dateOverride {
+                note.createdAt = dateOverride
+            }
             modelContext.insert(note)
             existingNote = note
         }
