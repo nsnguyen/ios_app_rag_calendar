@@ -197,12 +197,18 @@ struct MeetingDetailView: View {
         }
     }
 
+    // MARK: - Static DateFormatter (cached)
+
+    private static let timeFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.timeStyle = .short
+        return formatter
+    }()
+
     // MARK: - Helpers
 
     private var timeString: String {
-        let formatter = DateFormatter()
-        formatter.timeStyle = .short
-        return "\(formatter.string(from: meeting.startDate)) - \(formatter.string(from: meeting.endDate))"
+        "\(Self.timeFormatter.string(from: meeting.startDate)) - \(Self.timeFormatter.string(from: meeting.endDate))"
     }
 
     private func loadBrief() async {

@@ -15,6 +15,7 @@ struct PersonAvatarView: View {
                 .font(.system(size: size * 0.45, weight: .medium))
                 .foregroundStyle(.white)
         }
+        .accessibilityLabel("Avatar for \(name)")
     }
 
     private var initials: String {
@@ -26,12 +27,22 @@ struct PersonAvatarView: View {
     }
 
     private var avatarColor: Color {
-        let hash = abs(name.hashValue)
+        // Use deterministic hash (DJB2) instead of String.hashValue which is randomized per process
+        let hash = Self.deterministicHash(name)
         let colors: [Color] = [
             Color(hex: "5B4F3E"), Color(hex: "6B8F71"), Color(hex: "8B4513"),
             Color(hex: "7B61FF"), Color(hex: "D2691E"), Color(hex: "4A6741"),
             Color(hex: "6B5F53"), Color(hex: "B8860B"),
         ]
         return colors[hash % colors.count]
+    }
+
+    /// DJB2 hash algorithm - deterministic across app launches
+    private static func deterministicHash(_ string: String) -> Int {
+        var hash: UInt64 = 5381
+        for char in string.utf8 {
+            hash = ((hash << 5) &+ hash) &+ UInt64(char)
+        }
+        return Int(hash % UInt64(Int.max))
     }
 }

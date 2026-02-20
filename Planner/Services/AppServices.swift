@@ -33,7 +33,8 @@ final class AppServices {
             calendarService: calendarService,
             ragService: rag,
             embeddingService: embedding,
-            summarizationService: summarizationService
+            summarizationService: summarizationService,
+            spotlightService: spotlightService
         )
     }
 }

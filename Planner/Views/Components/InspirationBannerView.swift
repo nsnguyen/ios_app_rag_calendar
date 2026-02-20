@@ -27,5 +27,7 @@ struct InspirationBannerView: View {
             x: theme.shadows.subtleX,
             y: theme.shadows.subtleY
         )
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("Inspiration: \(phrase.text)")
     }
 }

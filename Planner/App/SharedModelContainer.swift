@@ -19,7 +19,11 @@ enum SharedModelContainer {
             isStoredInMemoryOnly: false
         )
         do {
-            return try ModelContainer(for: schema, configurations: [configuration])
+            return try ModelContainer(
+                for: schema,
+                migrationPlan: PlannerMigrationPlan.self,
+                configurations: [configuration]
+            )
         } catch {
             fatalError("Failed to create ModelContainer: \(error)")
         }

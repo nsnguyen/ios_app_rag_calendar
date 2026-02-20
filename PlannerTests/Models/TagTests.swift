@@ -22,7 +22,7 @@ struct TagTests {
         context.insert(tag)
         try context.save()
 
-        let descriptor = FetchDescriptor<Tag>()
+        let descriptor = FetchDescriptor<Planner.Tag>()
         let results = try context.fetch(descriptor)
 
         #expect(results.count == 1)

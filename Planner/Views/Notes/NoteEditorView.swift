@@ -8,7 +8,8 @@ struct NoteEditorView: View {
     @Environment(AppServices.self) private var appServices
 
     @State private var title: String
-    @State private var bodyText: String
+    @State private var attributedText: NSAttributedString
+    @State private var plainText: String
     @State private var saveTask: Task<Void, Never>?
     @State private var existingNote: Note?
 
@@ -19,7 +20,8 @@ struct NoteEditorView: View {
         self._existingNote = State(initialValue: nil)
         self.meetingRecord = nil
         self._title = State(initialValue: "")
-        self._bodyText = State(initialValue: "")
+        self._attributedText = State(initialValue: NSAttributedString(string: ""))
+        self._plainText = State(initialValue: "")
     }
 
     /// Edit an existing note.
@@ -27,7 +29,15 @@ struct NoteEditorView: View {
         self._existingNote = State(initialValue: note)
         self.meetingRecord = note.meetingRecord
         self._title = State(initialValue: note.title)
-        self._bodyText = State(initialValue: note.plainText)
+        self._plainText = State(initialValue: note.plainText)
+
+        // Restore rich text from Data, or create from plain text
+        if let data = note.richTextData,
+           let restored = NSAttributedString.unarchived(from: data) {
+            self._attributedText = State(initialValue: restored)
+        } else {
+            self._attributedText = State(initialValue: NSAttributedString(string: note.plainText))
+        }
     }
 
     /// Create a new note linked to a meeting.
@@ -35,7 +45,8 @@ struct NoteEditorView: View {
         self._existingNote = State(initialValue: nil)
         self.meetingRecord = meetingRecord
         self._title = State(initialValue: "")
-        self._bodyText = State(initialValue: "")
+        self._attributedText = State(initialValue: NSAttributedString(string: ""))
+        self._plainText = State(initialValue: "")
     }
 
     var body: some View {
@@ -52,12 +63,13 @@ struct NoteEditorView: View {
                 .padding(.horizontal, theme.spacing.lg)
                 .padding(.vertical, theme.spacing.sm)
 
-            // Body text (plain TextEditor in Phase 3, replaced by RichTextEditor in Phase 4)
-            TextEditor(text: $bodyText)
-                .font(theme.typography.bodyFont)
-                .foregroundStyle(theme.colors.textPrimary)
-                .scrollContentBackground(.hidden)
-                .padding(.horizontal, theme.spacing.md)
+            // Rich text editor with formatting toolbar
+            RichTextEditor(
+                attributedText: $attributedText,
+                plainText: $plainText,
+                onTextChange: { debouncedSave() }
+            )
+            .padding(.horizontal, theme.spacing.md)
         }
         .background(theme.colors.background)
         .navigationTitle(existingNote == nil ? "New Note" : "Edit Note")
@@ -71,7 +83,6 @@ struct NoteEditorView: View {
             }
         }
         .onChange(of: title) { debouncedSave() }
-        .onChange(of: bodyText) { debouncedSave() }
     }
 
     // MARK: - Save
@@ -86,14 +97,19 @@ struct NoteEditorView: View {
     }
 
     private func saveNote() {
+        // Archive attributed text to Data for persistence
+        let richTextData = attributedText.archived()
+
         if let existingNote {
             existingNote.title = title
-            existingNote.plainText = bodyText
+            existingNote.plainText = plainText
+            existingNote.richTextData = richTextData
             existingNote.updatedAt = Date()
         } else {
             let note = Note(
                 title: title,
-                plainText: bodyText,
+                plainText: plainText,
+                richTextData: richTextData,
                 meetingRecord: meetingRecord
             )
             modelContext.insert(note)
